@@ -25,14 +25,13 @@
 
             $conn = Db::connect();
             $userdata = $conn->query("SELECT * FROM users WHERE id = $userid;"); 
-
+            $projects = $conn->query("SELECT projectname FROM projects WHERE userid = $userid;"); 
 
             foreach ($userdata as $row) {
                 $name = $row['firstname'] . " " . $row['lastname'];
             }
-
-
-        } catch(PDOException $e) {
+            
+            } catch(PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
         }
 
@@ -42,7 +41,19 @@
    
    <div>
        <h1><?php echo $name; ?></h1>
+       <a href="projects.php">Add project</a>
    </div>
+   <div>
+      <?php
+        while ($row = $projects->fetch(PDO::FETCH_NUM)) {
+                $project['projectname'] = $row[0];
+                echo "<br><a href=''><h3>" . $project['projectname'] . "</h3></a><br>";
+                
+        }
+       ?>
+   </div>
+   
+   
     
 </body>
 </html>
