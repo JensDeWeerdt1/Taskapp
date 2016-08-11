@@ -2,6 +2,7 @@
 body{
     background-color:#e9ebee;
     font-family: "Roboto";
+    margin:20px;
 }
 
 
@@ -33,15 +34,6 @@ h4{
     overflow:hidden;
 }
 
-.innerquiz{
-    margin-left:20px;
-    margin-right:20px;
-}
-
-#quizform{
-    padding-top:30px;
-    padding-left:20px;
-}
 
 
 input{
@@ -88,21 +80,7 @@ input{
     color:white;
     display:none;
 }
-.fbbutton{
-    background-color:#326086;
-    width:198px;
-    padding-top:10px;
-    padding-bottom:10px;
-    margin-top:10px;
-    border:none;
-    font-weight:bold;
-    color:white;
-    text-decoration:none;
-    font-size:0.8em;
-    padding-left:35px;
-    padding-right:34px;
-    margin-top:100px;
-}
+
 
 #loginform{
     margin-top:200px;
@@ -112,268 +90,115 @@ input{
     margin-top:50px;
 }
 
-#instalogo{
-    width:200px;
-    
-    padding-top:20px;
-    
-}
-
 label{
     font-size:1em;
 }
 
-.return{
-    text-decoration:none;
-    font-size:0.8em;
-    color:#106ecb;
+.comment-title{
+    margin-top:40px;
+    color:#666;
 }
 
-.homenav{
-    display:block;
-    height:80px;
-    width:50%;
-    background-color:#b8ccc6;
-    
-}
-
-#quiz{
-    margin-left:20px;
-}
-
-.scorebord{
-    display:block;
-    height:80px;
-    width:50%;
-    background-color:#b8ccc6;
-    float:right;
-    margin-top:-80px;
-}
-
-.scorebord:hover{
-    background-color:#a5bfb5;
-}
-
-.homenav:hover{
-    background-color:#a5bfb5;
-}
-
-
-#btnimg1{
-    width:50px;
-    padding-left:90px;
-    padding-top:15px;
-}
-
-#btnimg2{
-    width:75px;
-    padding-left:78px;
-    padding-top:13px;
-}
-
-#settings{
-    width:30px;
-    float:right;
-    padding:15px;
-}
-
-a{
-    text-decoration:none;
-}
-
-.clearfix{
-    clear:both;
-}
-
-.startquizbtn{
-    font-family: 'Amatic SC';
-    display:block;
-    background-color:#74B29D;
-    font-size: 1.6em;
-    width:250px;
-    padding-top:20px;
-    padding-bottom:20px;
-    margin-top:250px;
-    border:none;
-    font-weight:bold;
-    color:white;
-    margin-left:auto;
-    margin-right:auto;
-    text-align:center;
-}
-
-.logout{
-    margin-left:18px;
-    color:#106ecb;
-
-}
-
-#welcome{
-    display:block;
-    text-align:center;
-    font-family: 'Amatic SC';
-    font-size:1.8em;
-    color:#74B29D;
-    padding-top:100px;
-    margin-left:auto;
-    margin-right:auto;
-    
-}
-
-.square{
-    display:block;
-    height:770px;
-    padding-top:15px;
-}
-
-.scoreuser{
-    display:block;
-    font-family:'Amatic SC';
-    font-size:1.4em;
-    color:#3d4c45;
-    background-color:#D9E6E2;
-    padding-top:10px;
-    padding-bottom:10px;
-    border-bottom: 3px solid #a8bab3;
-    padding-left:10px;
-}
-
-#show{
-    display:block;
-    margin:auto;
-    margin-top:auto;
-    margin-bottom:auto;
-    width:100px;
-}
-
-.scorescore{
-    float:right;
-    padding-right:20px;
-}
-
-.myscoreuser{
-    display:block;
-    font-family:'Amatic SC';
-    font-size:1.4em;
-    color:#3d4c45;
-    background-color:#f8bc2c;
-    padding-top:10px;
-    padding-bottom:10px;
-    border-bottom: 3px solid #a8bab3;
-    padding-left:10px;
-}
-
-.myscorescore{
-    float:right;
-    padding-right:20px;
-}
-
-.vraagnummer{
-    color:#3d4c45;
-    display:block;
-    font-family: 'Open Sans Condensed';
-    width:60px;
-    padding-top:6px;
-    padding-bottom:6px;
-    background-color:#EAE6C3;
-    text-align:center;
-    float:right;
-    margin-right:220px;
-    margin-top:9px;
-    border:solid #74B29D 3px ;
-}
-
-
-.vierkant {
-    display:block;
-    background-color:#74B29D;
-    border: 1px solid darkgreen;
-    width:24.5%;
-    float:left;
-    height:14%;
+ul.comments-holder
+{
+    list-style-type: none;
+    width:auto;
+    height:auto;
     overflow:hidden;
 }
 
-
-.vierkant:hover{
-    background-color:#D9E6E2;
+li.comments-holder{
+    list-style-type:none;
+    height:auto;
+    width:auto;
+    margin: 5px 0 5px 0;
+    background-color:#fffff4;
+    overflow:hidden;
+    position:relative;
 }
 
-img {
-  opacity: 1;
-  transition: all .2s ease-in-out;
-   width: 100px;
-   margin-left:5px;
+li.comments-holder:hover{
+    border:2px solid #e1e1e1;
 }
 
-img.hidden {
-   opacity: 0;
-   
+.comment-body{
+    width:auto;
 }
 
-#aantaltegels{
-    display:block;
-    text-align:center;
-    width:500px;
-    margin-left:auto;
-    margin-right:auto;
-    margin-left:-30px;
-    font-family:'Amatic SC';
-    color:#74B29D;
-    font-size:1.5em;
+.username-field{
+    font-size:0.8em;
     font-weight:bold;
-    padding-top:10px;
-    margin-bottom:10px;
-    padding-left:10px;
-}
-
-#backbtn{
-    display:block;
-    font-family:'Amatic SC';
-    text-align:center;
-    background-color:#74B29D;
-    width:120px;
-    margin-left:auto;
-    margin-right:auto;
-    padding-top:10px;
-    padding-bottom:10px;
-    padding-right:30px;
-    padding-left:30px;
-    border:none;
-    color:white;
-    text-decoration:none;
-    font-size:1.3em;
-    margin-top:20px;
-    visibility:hidden;
-}
-
-#linkcolor{
-    color:white;
-}
-
-#settingsname{
-    display:block;
+    height:25px;
     
-    
-    margin-left:15px;
-    font-family:'Amatic SC';
-    color:#74B29D;
-    font-size:1.5em;
-    font-weight:bold;
+    line-height:22px;
+    color:#29a329;
+    margin-left:10px;
 }
 
-#settingsemail{
+.username-field:hover{
+    color:#1f7a1f;
+}
+
+.comment-text{
     display:block;
-    margin-top:40px;
-    
-    margin-left:15px;
-    font-family:'Amatic SC';
-    color:#74B29D;
-    font-size:1.5em;
-    font-weight:bold;
-}
-
-#email{
-    color:darkgray;
+    width:auto;
+    color:gray;
     font-size:0.9em;
+    margin-left:75px;
+    padding-bottom:10px;
+}
+
+.user-img{
+    float:left;
+    height:65px;
+    width:65px;
+    
+    margin-right:10px;
+}
+
+.user-img-pic{
+    width:55px;
+    height:auto;
+    margin:5px;
+    border:1px solid #a1a1a1;
+}
+
+.user-img-pic:hover{
+    border: 1px solid #818181;
+}
+
+li.comments-holder:hover .comment-buttons-holder{
+    display:block;
+}
+
+.comment-buttons-holder{
+    display:none;
+    position:absolute;
+    top:0px;
+    right:0px;
+    width:100px;
+    height:20px;
+}
+
+.comment-buttons-holder ul{
+    list-style-type:none;
+    width:auto;
+    height:auto;
+    overflow:hidden;
+}
+
+.comment-buttons-holder ul li{
+    float:right;
+    height:20px;
+    width:20px;
+    text-align: center;
+    line-height:17px;
+    color:#fff;
+    background-color:#29a329;
+    cursor:pointer;
+}
+
+.comment-buttons-holder ul li:hover{
+    color:#444;
+    background-color: #47d147;
 }

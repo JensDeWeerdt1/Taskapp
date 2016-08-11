@@ -25,7 +25,7 @@
 
             $conn = Db::connect();
             $userdata = $conn->query("SELECT * FROM users WHERE id = $userid;"); 
-            $projects = $conn->query("SELECT projectname FROM projects WHERE userid = $userid;"); 
+            $projects = $conn->query("SELECT projectname,projectid FROM projects WHERE userid = $userid;"); 
 
             foreach ($userdata as $row) {
                 $name = $row['firstname'] . " " . $row['lastname'];
@@ -47,8 +47,8 @@
       <?php
         while ($row = $projects->fetch(PDO::FETCH_NUM)) {
                 $project['projectname'] = $row[0];
-                echo "<br><a href=''><h3>" . $project['projectname'] . "</h3></a><br>";
-                
+                $projid = $project['projectid'] = $row[1];
+                echo "<br><a href='tasks.php?project=" . $project['projectid'] . "'><h3>" . $project['projectname'] . "</h3></a><br>";
         }
        ?>
    </div>
