@@ -1,6 +1,6 @@
 <?php
     session_start();
-
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/Taskapp/defines.php';
 
     if(empty($_SESSION['user'])){
             header("Location: index.php");
@@ -48,6 +48,8 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/style.css">
+    <script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="../js/script.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
 </head>
 <?php
@@ -57,7 +59,11 @@
 
             $conn = Db::connect();
             $tasks = $conn->query("SELECT tasktitle FROM tasks WHERE projectid = $projectidvalue;");  
-           
+            $userdata = $conn->query("SELECT * FROM users WHERE id = $userid;");
+            foreach ($userdata as $row) {
+                $name = $row['username'];
+            }         
+
             } catch(PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
         }
@@ -79,70 +85,25 @@
 </div>
 <div class="comment-wrapper">
    <h3 class="comment-title">Comments</h3>
+    <div class="comment-insert">
+        <h3 class="who-says">
+            <span class="says-colour">Says:</span> <?php echo $name; ?>
+        </h3>
+        <div class="comment-insert-container">
+            <textarea id="comment-post-text" class="comment-insert-text"></textarea>
+        </div>
+        <div class="comment-post-btn-wrapper" id="commentbtn">
+            Comment
+        </div>
+    </div>
     <div class="comment-list">
-        <li class="comments-holder" id="_1">
-            <div class="user-img">
-                <img src="../images/avatar.png" alt="userimg" class="user-img-pic">
-            </div>   
-            <div class="comment-body">
-                <h3 class="username-field">
-                Jens De Weerdt
-            </h3>
-            <div class="comment-text">Thanks for the feedback!
-            Thanks for the feedback!
-            Thanks for the feedback!
-            Thanks for the feedback!
-            Thanks for the feedback!
-            Thanks for the feedback!
-               Thanks for the feedback!
-               Thanks for the feedback!
-               Thanks for the feedback!
-               Thanks for the feedback!
-               Thanks for the feedback!
-               Thanks for the feedback!
-               Thanks for the feedback!
-               Thanks for the feedback!
-               Thanks for the feedback!
-               Thanks for the feedback!
-               Thanks for the feedback!
-               </div>
-                
-            </div> 
-            <div class="comment-buttons-holder">
-                <ul>
-                    <li class="delete-btn">
-                        X
-                    </li>
-                </ul>
-            </div>
-        </li>
-        
-           
-           
-           <li class="comments-holder" id="_1">
-            <div class="user-img">
-                <img src="../images/avatar.png" alt="userimg" class="user-img-pic">
-            </div>   
-            <div class="comment-body">
-            <h3 class="username-field">
-                Jens De Weerdt
-            </h3>
-            <div class="comment-text">Thanks for the feedback!<br>
-            </div>
-                
-            </div> 
-            <div class="comment-buttons-holder">
-                <ul>
-                    <li class="delete-btn">
-                        X
-                    </li>
-                </ul>
-            </div>
-        </li>
-        
-        
+        <ul class=comments-holder-ul>
+            <?php $comments = Feature::getComments(); ?>
+            <?php require_once INCLUDES . 'commentbox.php'; ?>
+        </ul>
     </div>
 </div>
-   
+<input type="hidden" id="userid" value="<?php echo $userid; ?>"/>
+<input type="hidden" id="username" value="Jens De Weerdt"/>
 </body>
 </html>

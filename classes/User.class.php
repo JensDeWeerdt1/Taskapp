@@ -1,5 +1,4 @@
 <?php
-
 class User
 	{
         private $m_iId;
@@ -232,6 +231,18 @@ class User
 
             return $output;
 
+        }
+    
+        public static function getUser($userid){
+            $sql = "select * from users WHERE id=$userid";
+            $query = mysql_query($sql);
+            if($query)
+            {
+                if(mysql_num_rows($query) == 1){
+                    return mysql_fetch_object($query);
+                }
+            }
+            return null;
         }
     
     

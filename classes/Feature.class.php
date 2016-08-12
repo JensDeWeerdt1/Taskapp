@@ -1,6 +1,8 @@
 
 <?php
 
+require_once 'User.class.php';
+
 class Feature
 	{
         private $m_sProjectname;
@@ -96,6 +98,52 @@ class Feature
                 header("Location: tasks.php");
             
 		}
+    
+        public static function getComments(){
+            $output = array();
+            $sql = "select * from comments order by comment_id desc";
+            $query = mysql_query($sql);
+            if($query){
+                if(mysql_num_rows($query) > 0)
+                {
+                    while($row = mysql_fetch_object($query)){
+                        $output[] = $row;
+                    }
+                }
+            }
+            return $output;
+        }
+        //return a stdClass Object from database
+        public static function insert($comment_txt , $userid){
+            //insert data in database
+            
+            $comment_txt = addslashes($comment_txt);
+            $sql = "INSERT INTO comments(comment_id, comment, userid) values('' , '$comment_txt' , $userid)";
+            $query = mysql_query($sql);
+            
+            
+            
+            if($query){
+                $insert_id = mysql_insert_id();
+                $std = new stdClass();
+                $std->comment_id = $insert_id;
+                $std->comment = $comment_txt;
+                $std->userid = (int)$userid;
+                return $std;
+            }
+            
+            return null;
+            
+            
+        }
+    
+        public static function update($data){
+            
+        }
+    
+        public static function delete($commentId){
+            
+        }
 }
 
 ?>
