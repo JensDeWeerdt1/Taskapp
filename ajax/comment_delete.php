@@ -8,7 +8,10 @@
 
     if(isset($_POST['task']) && $_POST['task'] == 'comment_delete'){
         if(class_exists('Feature')){
-            
+            if(Feature::delete($_POST['comment_id'])){
+                echo "true";
+            }
         }
+        echo "false";
     }
 ?>

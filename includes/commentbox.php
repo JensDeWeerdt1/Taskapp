@@ -1,3 +1,9 @@
+<?php 
+
+$userid = $_SESSION['user'];
+?>
+
+
 <?php if(isset($GLOBALS['comments']) && is_array($comments)): ?>
 <?php foreach($comments as $key => $comment): ?>               
 
@@ -15,6 +21,7 @@
                    </div>
 
                 </div> 
+                <?php if($userid == $comment->userid): ?>
                 <div class="comment-buttons-holder">
                     <ul>
                         <li id="<?php echo $comment->comment_id;?>" class="delete-btn">
@@ -22,6 +29,7 @@
                         </li>
                     </ul>
                 </div>
+                <?php endif; ?>
 </li>
 
 

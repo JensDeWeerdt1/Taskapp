@@ -1,15 +1,20 @@
 $(document).ready(function(){
+    
     $('#commentbtn').click(function(){
         comment_post_btn_click();
     });
+    add_delete_handlers();
     
+});
+
+function add_delete_handlers(){
     $('.delete-btn').each(function(){
         var btn = this;
         $(btn).click(function(){
             comment_delete(btn.id);
         });
     });
-});
+}
 
 function comment_delete(_comment_id){
    
@@ -19,7 +24,7 @@ function comment_delete(_comment_id){
                 comment_id : _comment_id
               },
               function(data){
-                console.log("succes commentdelete");
+                $('#' + _comment_id).detach();
               });
 }
 
@@ -66,10 +71,11 @@ function comment_insert(data){
     t += '</div>'; 
     t += '<div class="comment-buttons-holder">';
     t += '<ul>';
-    t += '<li class="delete-btn">X</li>';
+    t += '<li id = "'+data.comment.comment_id+'" class="delete-btn">X</li>';
     t += '</ul>';
     t += '</div>';
     t += '</li>';
     
     $('.comments-holder-ul').prepend(t);
+    add_delete_handlers();
 }

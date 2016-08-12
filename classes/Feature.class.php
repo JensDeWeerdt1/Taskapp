@@ -142,7 +142,12 @@ class Feature
         }
     
         public static function delete($commentId){
-            
+            $sql = "delete from comments where comment_id=$commentId";
+            $query = mysql_query($sql);
+            if($query){
+                return true;
+            }
+            return null;
         }
 }
 
