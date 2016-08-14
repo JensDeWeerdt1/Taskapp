@@ -15,8 +15,6 @@
                 setcookie("projectidvalue", $projectid, time()+3600000);
             }
             
-            
-            echo $userid;
             if(!empty($_POST))
             {
                 try
@@ -48,8 +46,10 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
     <script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/script.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
 </head>
 <?php
@@ -60,9 +60,13 @@
             $conn = Db::connect();
             $tasks = $conn->query("SELECT tasktitle FROM tasks WHERE projectid = $projectidvalue;");  
             $userdata = $conn->query("SELECT * FROM users WHERE id = $userid;");
+            $projects = $conn->query("SELECT projectname,projectid FROM projects WHERE userid = $userid;");
+            $users = $conn->query("SELECT username FROM users;");
             foreach ($userdata as $row) {
                 $name = $row['username'];
-            }         
+            }     
+            
+        
 
             } catch(PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
@@ -70,40 +74,69 @@
 
     ?>
 <body>
-  <form action="" method="post" id="registerform">
-     <input type="text" name="tasktitle" class="textfield" placeholder="Task title"><br>
-     <input type="hidden" name="projectnum" value="<?php echo $projectid ?>" />
-    <button type="submit" class="submitbtn">Add Task</button><br>
-  </form>
-  <div>
-  <?php
-        while ($row = $tasks->fetch(PDO::FETCH_NUM)) {
-                $task['tasktitle'] = $row[0];
-                echo "<br><h3>" . $task['tasktitle'] . "</h3><br>";
+ <div class="container">
+     <div class="row">
+        <div class="span3">
+        
+        
+        <div>
+          <?php
+        while ($row = $projects->fetch(PDO::FETCH_NUM)) {
+                $project['projectname'] = $row[0];
+                $projid = $project['projectid'] = $row[1];
+                echo "<br><a href='tasks.php?project=" . $project['projectid'] . "'><h5>" . $project['projectname'] . "</h5></a><br>";
         }
-    ?>
-</div>
-<div class="comment-wrapper">
-   <h3 class="comment-title">Comments</h3>
-    <div class="comment-insert">
-        <h3 class="who-says">
-            <span class="says-colour">Says:</span> <?php echo $name; ?>
-        </h3>
-        <div class="comment-insert-container">
-            <textarea id="comment-post-text" class="comment-insert-text"></textarea>
+       ?>
+   </div>
         </div>
-        <div class="comment-post-btn-wrapper" id="commentbtn">
-            Comment
+         <div class="span6"><!-- --------------------------------------------- !-->
+              <form action="" method="post" id="registerform">
+                 <input type="text" name="tasktitle" class="textfield" placeholder="Task title"><br>
+                 <input type="hidden" name="projectnum" value="<?php echo $projectid ?>" />
+                <button type="submit" class="btn btn-small btn-success">Add Task</button><br>
+              </form>
+              <div>
+                <?php
+                    while ($row = $tasks->fetch(PDO::FETCH_NUM)) {
+                        $task['tasktitle'] = $row[0];
+                        echo "<br><h5>" . $task['tasktitle'] . "</h5><br>";
+                    }
+                ?>
+              </div>
+            <div class="comment-wrapper">
+                <h4 class="comment-title">Comments</h4>
+                <div class="comment-insert">
+                    <h3 class="who-says">
+                        <span class="says-colour">Says:</span> <?php echo $name; ?>
+                    </h3>
+                    <div class="comment-insert-container">
+                        <textarea id="comment-post-text" class="comment-insert-text"></textarea>
+                    </div>
+                    <div class="comment-post-btn-wrapper" id="commentbtn">
+                        Comment
+                    </div>
+                </div>
+                <div class="comment-list">
+                    <ul class=comments-holder-ul>
+                        <?php $comments = Feature::getComments(); ?>
+                        <?php require_once INCLUDES . 'commentbox.php'; ?>
+                    </ul>
+                </div>
+            </div>
+            <input type="hidden" id="userid" value="<?php echo $userid; ?>"/>
+            <input type="hidden" id="username" value="Jens De Weerdt"/>
         </div>
+    
+    
+    <div class="span3">
+        <?php 
+            while($row = $users->fetch(PDO::FETCH_ASSOC)) {
+            $username = $row['username'];
+            echo "<li>" . $username . "</li>";
+            }
+        ?>
     </div>
-    <div class="comment-list">
-        <ul class=comments-holder-ul>
-            <?php $comments = Feature::getComments(); ?>
-            <?php require_once INCLUDES . 'commentbox.php'; ?>
-        </ul>
     </div>
 </div>
-<input type="hidden" id="userid" value="<?php echo $userid; ?>"/>
-<input type="hidden" id="username" value="Jens De Weerdt"/>
 </body>
 </html>
