@@ -33,6 +33,22 @@
                 
                 
             }
+        
+            if(!empty($_POST))
+            {
+                try
+                {  
+                    $project = new Feature();
+                    $project->Projectname = $_POST['projectname'];
+                    $project->Userid = $_SESSION['user'];
+                    $project->newproject();
+                    
+                }
+                catch(exception $e)
+                {
+                    $error = $e->getMessage();
+                }
+            }
             $projectidvalue = $_COOKIE['projectidvalue'];
         }
             
@@ -63,7 +79,8 @@
             $projects = $conn->query("SELECT projectname,projectid FROM projects WHERE userid = $userid;");
             $users = $conn->query("SELECT username FROM users;");
             foreach ($userdata as $row) {
-                $name = $row['username'];
+                $loggedinuser = $row['username'];
+                $profileloc = $row['profile_img'];
             }     
             
         
@@ -80,14 +97,27 @@
         
         
         <div>
+         
           <?php
+           echo "<div class='loggedinimg'><img src='$profileloc' alt='avatar logged in user'></div>";
+           echo "<div class='loggedinname'><h5>$loggedinuser</h5></div>";
+           echo "<h4>Projects</h4>";?>
+           <form action="" method="post" id="registerform">
+           
+           <input type="text" name="projectname" class="textfield" placeholder="Project name"><br>
+           <button type="submit" class="btn btn-small btn-success">Add</button><br>
+    </form>
+           <?php
         while ($row = $projects->fetch(PDO::FETCH_NUM)) {
                 $project['projectname'] = $row[0];
                 $projid = $project['projectid'] = $row[1];
                 echo "<br><a href='tasks.php?project=" . $project['projectid'] . "'><h5>" . $project['projectname'] . "</h5></a><br>";
-        }
+        }  
+         
+            
+        
        ?>
-   </div>
+       </div>
         </div>
          <div class="span6"><!-- --------------------------------------------- !-->
               <form action="" method="post" id="registerform">
@@ -99,7 +129,7 @@
                 <?php
                     while ($row = $tasks->fetch(PDO::FETCH_NUM)) {
                         $task['tasktitle'] = $row[0];
-                        echo "<br><h5>" . $task['tasktitle'] . "</h5><br>";
+                        echo "<li class='tasks'><h5>" . $task['tasktitle'] . "</h5></li>";
                     }
                 ?>
               </div>
@@ -107,7 +137,7 @@
                 <h4 class="comment-title">Comments</h4>
                 <div class="comment-insert">
                     <h3 class="who-says">
-                        <span class="says-colour">Says:</span> <?php echo $name; ?>
+                        <span class="says-colour">Says:</span> <?php echo $loggedinuser; ?>
                     </h3>
                     <div class="comment-insert-container">
                         <textarea id="comment-post-text" class="comment-insert-text"></textarea>

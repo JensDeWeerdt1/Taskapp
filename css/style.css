@@ -1,6 +1,6 @@
 
 body{
-    background-color:#e9ebee;
+    background-color:#e6e6e6;
     font-family: "Roboto";
     
 }
@@ -128,7 +128,7 @@ li.comments-holder:hover{
     height:25px;
     
     line-height:22px;
-    color:#29a329;
+    color:black;
     margin-left:10px;
 }
 
@@ -204,7 +204,6 @@ li.comments-holder:hover .comment-buttons-holder{
     height:170px;
     width:auto;
     margin:10px 2px 10px 2px;
-    border:1px solid #e1e1e1;
     position:relative;
 }
 
@@ -220,7 +219,6 @@ li.comments-holder:hover .comment-buttons-holder{
 
 .comment-insert-container{
     margin: 5px 10px 5px 0px;
-    border: 1px solid #e1e1e1;
     width:auto;
     height:90px;
     position:relative;
@@ -241,6 +239,7 @@ textarea.comment-insert-text{
     font-size:1.1em;
     width:100%;
     height:100%;
+    border:1px solid #e1e1e1;
     
 }
 
@@ -273,4 +272,31 @@ li{
 .btn{
     float:left;
 }
+
+.tasks{
+    display:block;
+    width:100%;
+    background-color:#f2f2f2;
+    padding: 10px 5px 10px 5px;
+    color:#595959;
+    
+}
+
+.loggedinimg{
+    display:block;
+    width:80px;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:30px;
+}
+
+.loggedinname{
+    display:block;
+    padding-top:10px;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+    color:#666666;
+}
+
 
