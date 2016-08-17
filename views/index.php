@@ -20,7 +20,7 @@ if (!empty($_POST)) {
 
 
 	if($login->CanLogin($username,$password)){
-		header('Location: home.php');
+		header('Location: tasks.php');
 	}else{
 		echo "Error";
 	}

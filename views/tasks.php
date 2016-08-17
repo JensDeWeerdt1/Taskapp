@@ -10,9 +10,12 @@
             include_once '../classes/Feature.class.php';
             $userid = $_SESSION['user'];
             
-            if(!empty($_GET['project'])){
+            if(isset($_GET['project'])){
                 $projectid = (int) $_GET['project'];
                 setcookie("projectidvalue", $projectid, time()+3600000);
+            } 
+            else{
+                $projectid = 0;
             }
             
             if(!empty($_POST))
@@ -21,7 +24,7 @@
                 {  
                     $task = new Feature();
                     $task->Tasktitle = $_POST['tasktitle'];
-                    $task->Projectid = $_COOKIE['projectidvalue'];
+                    $task->Projectid = $projectid;
                     $task->AddTask();
                     
                 }
@@ -33,7 +36,6 @@
                 
                 
             }
-        
             if(!empty($_POST))
             {
                 try
@@ -49,7 +51,7 @@
                     $error = $e->getMessage();
                 }
             }
-            $projectidvalue = $_COOKIE['projectidvalue'];
+            
         }
             
         
@@ -74,7 +76,7 @@
         try {
 
             $conn = Db::connect();
-            $tasks = $conn->query("SELECT tasktitle FROM tasks WHERE projectid = $projectidvalue;");  
+            $tasks = $conn->query("SELECT tasktitle FROM tasks WHERE projectid = $projectid;");  
             $userdata = $conn->query("SELECT * FROM users WHERE id = $userid;");
             $projects = $conn->query("SELECT projectname,projectid FROM projects WHERE userid = $userid;");
             $users = $conn->query("SELECT username FROM users;");
@@ -114,7 +116,7 @@
                 echo "<br><a href='tasks.php?project=" . $project['projectid'] . "'><h5>" . $project['projectname'] . "</h5></a><br>";
         }  
          
-            
+        $projectid = $_COOKIE['projectidvalue'];    
         
        ?>
        </div>
