@@ -137,6 +137,17 @@ class Feature
             
 		}
     
+        public function makeadmin($useradminid)
+        {
+            
+                $conn = new PDO('mysql:host=localhost;dbname=Taskapp', "root", "");
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $data = $conn->query("UPDATE users SET Admin = 1 WHERE id=$useradminid");
+                header("Location: tasks.php");
+            
+		}
+    
         public function AddTask()
         {
             

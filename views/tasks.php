@@ -90,6 +90,21 @@
                     $error = $e->getMessage();
                 }
             }
+            if(!empty($_POST['adminmaker']))
+            {
+                try
+                {  
+                    $adminmaker = new Feature();
+                    $useradminid = $_POST['useradmin'];
+                    
+                    $adminmaker->makeadmin($useradminid);
+                    
+                }
+                catch(exception $e)
+                {
+                    $error = $e->getMessage();
+                }
+            }
             
             
         }
@@ -98,7 +113,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Quiz</title>
+    <title>Taskapp</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/style.css">
@@ -119,7 +134,8 @@
             $tasks = $conn->query("SELECT tasktitle, date FROM tasks WHERE projectid = $projectid;");  
             $userdata = $conn->query("SELECT * FROM users WHERE id = $userid;");
             $projects = $conn->query("SELECT projectname,projectid,dateproject FROM projects WHERE userid = $userid;");
-            $users = $conn->query("SELECT username FROM users;");
+            $users = $conn->query("SELECT username,profile_img FROM users;");
+            $usersadmin = $conn->query("SELECT username,id FROM users;");
             $course = $conn->query("SELECT * FROM courses;");
             $coursedelete = $conn->query("SELECT * FROM courses;");
             foreach ($userdata as $row) {
@@ -146,6 +162,7 @@
           <?php
            echo "<div class='loggedinimg'><img src='$profileloc' alt='avatar logged in user'></div>";
            echo "<div class='loggedinname'><h5>$loggedinuser</h5></div>";
+           echo "<a href='logout.php'>Logout</a>";
            echo "<h4>Projects</h4>";?>
            <form action="" method="post" id="registerform">
            
@@ -176,7 +193,6 @@
        if($adminornot == 1){
        ?>
        <h4>Admin Menu</h4>
-       <h6>Add new course</h6>
        
        <form action='' method='post'>
             <input type='text' name='coursename' class='textfield' placeholder='coursename'><br>
@@ -194,6 +210,19 @@
                ?>
            </select>
            <input type='submit' class='btn btn-small btn-success' name='coursedelete' value='Delete course'/><br>
+    </form>
+     <form action='' method='post' id='registerform'>
+           <select name='useradmin' >
+               <?php 
+                    
+                    while($row = $usersadmin->fetch(PDO::FETCH_ASSOC)) {
+                    $usernameadmin = $row['username'];
+                    $useridadmin = $row['id'];
+                    echo "<option value=". $useridadmin .">" . $usernameadmin . "</option>'";
+                    }
+               ?>
+           </select>
+           <input type='submit' class='btn btn-small btn-success' name='adminmaker' value='Make admin'/><br>
     </form>
       <?php } ?>
        </div>
@@ -242,14 +271,17 @@
     
     
     <div class="span3">
+       <h5>Registered users</h5>
         <?php 
             while($row = $users->fetch(PDO::FETCH_ASSOC)) {
             $username = $row['username'];
-            echo "<li>" . $username . "</li>";
+            $profilelocation = $row['profile_img'];
+            echo "<li><div><img class='smallprofileimg' src=". $profilelocation ." alt='profile image'><span class='smalltext'>" . $username . "</span></div></li>";
             }
         ?>
     </div>
     </div>
+    
 </div>
 </body>
 </html>

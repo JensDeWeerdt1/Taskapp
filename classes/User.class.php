@@ -9,6 +9,7 @@ class User
 		private $m_sPassword;
         private $m_aErrors;
         private $m_sConfirm_password;
+        private $m_iAdmin;
         
 
         public function __set( $p_sProperty, $p_vValue )
@@ -80,6 +81,9 @@ class User
                         throw new Exception("paswoord mag niet leeg zijn!");
                     }
 				break;
+                case "Admin":
+                    $this->m_iAdmin = $p_vValue;
+                break;
                 default: echo("Not existing property: " . $p_sProperty);
             } 
         }
@@ -112,6 +116,9 @@ class User
                 case 'ConfirmPassword':
                     return($this->m_sConfirm_password);
                 break; 
+                case 'Admin':
+                    return($this->m_iAdmin);
+                break; 
                 default: echo("Not existing property: " . $p_sProperty);
             }
         }
@@ -129,7 +136,7 @@ class User
 
                 $hashedPw = password_hash($this->m_sPassword, PASSWORD_DEFAULT);
 
-                $data = $conn->query("INSERT INTO users(firstname, lastname, username, email, password) VALUES(" . $conn->quote($this->m_sFirstname) . ", ". $conn->quote($this->m_sLastname) .",". $conn->quote($this->m_sUsername) .",". $conn->quote($this->m_sEmail) .",". $conn->quote($hashedPw) .")");
+                $data = $conn->query("INSERT INTO users(firstname, lastname, username, email, password, Admin) VALUES(" . $conn->quote($this->m_sFirstname) . ", ". $conn->quote($this->m_sLastname) .",". $conn->quote($this->m_sUsername) .",". $conn->quote($this->m_sEmail) .",". $conn->quote($hashedPw) . ",". $conn->quote($this->m_iAdmin) .")");
                 header("Location: index.php");
             }
 		}

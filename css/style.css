@@ -1,6 +1,6 @@
 
 body{
-    background-color:#e6e6e6;
+    background-color:white;
     font-family: "Roboto";
     
 }
@@ -8,44 +8,47 @@ body{
 
 .login{
     display:block;
-    background-color:#D9E6E2;
-    width:350px;
+    width:200px;;
     margin-left:auto;
     margin-right:auto;
-    padding-left:140px;
-    height:800px;
-    border-radius:10px;
-    margin-bottom:100px;
+    margin-top:-150px;
 }
 
+.register1{
+    display:block;
+    width:200px;;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#login1{
+    color:green;
+}
 
 .screensize{
     display:block;
-    background-color:#D9E6E2;
-    width:470px;
+    background-color:white;
+    width:400px;
     margin-left:auto;
     margin-right:auto;
-    height:770px;
     border-radius:10px;
-    margin-bottom:100px;
     overflow:hidden;
+    border:2px solid #e6e6e6;
+    padding-bottom:50px;
+    margin-top:100px;
 }
 
 
 
 input{
-    padding: 8px 50px 8px 4px;
+    padding: 0px 50px 8px 4px;
     margin-top:0px;
-    margin-bottom:10px;
+    margin-bottom:0px;
     border-radius: 4px;
      margin-left:-1px;
-    border-style: none;
+    border:1px solid #b3b3b3;
 }
 
-#login1{
-    font-size:0.8em;
-    color:#74B29D;
-}
 
 .register{
     font-size:0.8em;
@@ -304,4 +307,14 @@ li{
     margin-bottom:40px;
 }
 
+.smallprofileimg{
+    width:30px;
+    margin-top: 10px;
+}
+
+.smalltext{
+    color:gray;
+    margin-left:10px;
+    margin-top:10px;
+}
 
