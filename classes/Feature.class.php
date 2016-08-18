@@ -9,6 +9,9 @@ class Feature
         private $m_iUserid;
         private $m_sTasktitle;
         private $m_iProjectId;
+        private $m_sDate;
+        private $m_sDate1;
+        private $m_sCourse;
         
     
         
@@ -47,7 +50,15 @@ class Feature
                 case "Projectid":
                     $this->m_iProjectId = $p_vValue;
                 break;
-                
+                case "Dateform":
+                    $this->m_sDate = $p_vValue;
+                break;
+                case "Date":
+                    $this->m_sDate1 = $p_vValue;
+                break;
+                case "Course":
+                    $this->m_sCourse = $p_vValue;
+                break;
                 default: echo("Not existing property: " . $p_sProperty);
             } 
         }
@@ -71,6 +82,15 @@ class Feature
                 case 'Projectid':
                     return($this->m_iProjectId);
                 break;
+                case 'Dateform':
+                    return($this->m_sDate);
+                break;
+                case 'Date':
+                    return($this->m_sDate1);
+                break;
+                case 'Course':
+                    return($this->m_sCourse);
+                break;
                 
                 
                 default: echo("Not existing property: " . $p_sProperty);
@@ -83,8 +103,8 @@ class Feature
                 $conn = new PDO('mysql:host=localhost;dbname=Taskapp', "root", "");
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $data = $conn->query("INSERT INTO projects(projectname, userid) VALUES(" . $conn->quote($this->m_sProjectname) . ", ". $conn->quote($this->m_iUserid) .")");
-                header("Location: home.php");
+                $data = $conn->query("INSERT INTO projects(projectname, userid, dateproject, course) VALUES(" . $conn->quote($this->m_sProjectname) . ", ". $conn->quote($this->m_iUserid) . ", ". $conn->quote($this->m_sDate1) . ", " . $conn->quote($this->m_sCourse) .")");
+                header("Location: tasks.php");
             
 		}
     
@@ -94,7 +114,7 @@ class Feature
                 $conn = new PDO('mysql:host=localhost;dbname=Taskapp', "root", "");
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-                $data = $conn->query("INSERT INTO tasks(tasktitle, projectid) VALUES(" . $conn->quote($this->m_sTasktitle) . ", ". $conn->quote($this->m_iProjectId) .")");
+                $data = $conn->query("INSERT INTO tasks(tasktitle, projectid, date) VALUES(" . $conn->quote($this->m_sTasktitle) . ", ". $conn->quote($this->m_iProjectId) . ", ". $conn->quote($this->m_sDate) .")");
                 header("Location: tasks.php");
             
 		}
@@ -134,10 +154,6 @@ class Feature
             
             return null;
             
-            
-        }
-    
-        public static function update($data){
             
         }
     

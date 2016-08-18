@@ -22,10 +22,15 @@
             {
                 try
                 {  
+                    
                     $task = new Feature();
                     $task->Tasktitle = $_POST['tasktitle'];
                     $task->Projectid = $projectid;
+                    $date = mysql_real_escape_string($_POST['date1']);
+                    $newdate = date('Y-m-d', strtotime($date));
+                    $task->Dateform = $newdate;
                     $task->AddTask();
+                     
                     
                 }
                 catch(exception $e)
@@ -43,6 +48,10 @@
                     $project = new Feature();
                     $project->Projectname = $_POST['projectname'];
                     $project->Userid = $_SESSION['user'];
+                    $date1 = mysql_real_escape_string($_POST['date2']);
+                    $newdate1 = date('Y-m-d', strtotime($date1));
+                    $project->Date = $newdate1;
+                    $project->Course = $_POST['course'];
                     $project->newproject();
                     
                 }
@@ -54,8 +63,6 @@
             
         }
             
-        
-    
 ?>
 <!DOCTYPE html>
 <html>
@@ -65,9 +72,11 @@
     <link rel="stylesheet" href="../css/reset.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/overwrite.css">
     <script type="text/javascript" src="../js/jquery-3.1.0.min.js"></script>
     <script type="text/javascript" src="../js/script.js"></script>
     <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://services.iperfect.net/js/IP_generalLib.js"></script>
     <link href='https://fonts.googleapis.com/css?family=Amatic+SC' rel='stylesheet' type='text/css'>
 </head>
 <?php
@@ -76,10 +85,11 @@
         try {
 
             $conn = Db::connect();
-            $tasks = $conn->query("SELECT tasktitle FROM tasks WHERE projectid = $projectid;");  
+            $tasks = $conn->query("SELECT tasktitle, date FROM tasks WHERE projectid = $projectid;");  
             $userdata = $conn->query("SELECT * FROM users WHERE id = $userid;");
-            $projects = $conn->query("SELECT projectname,projectid FROM projects WHERE userid = $userid;");
+            $projects = $conn->query("SELECT projectname,projectid,dateproject FROM projects WHERE userid = $userid;");
             $users = $conn->query("SELECT username FROM users;");
+            $course = $conn->query("SELECT * FROM courses;");
             foreach ($userdata as $row) {
                 $loggedinuser = $row['username'];
                 $profileloc = $row['profile_img'];
@@ -107,13 +117,25 @@
            <form action="" method="post" id="registerform">
            
            <input type="text" name="projectname" class="textfield" placeholder="Project name"><br>
+           <select name="course" >
+               <?php 
+                    $sql = mysql_query("SELECT username FROM users");
+                    while ($row = $course->fetch(PDO::FETCH_NUM)){
+                    $row['coursename'] = $row[1];
+                    echo "<option value=". $row['coursename'] .">" . $row['coursename'] . "</option>";
+                    }
+               ?>
+           </select>
+           <input type="text" name="date2" id="date2" alt="date" class="IP_calendar" title="d/m/Y" placeholder="Deadline">
            <button type="submit" class="btn btn-small btn-success">Add</button><br>
     </form>
+          
            <?php
         while ($row = $projects->fetch(PDO::FETCH_NUM)) {
                 $project['projectname'] = $row[0];
                 $projid = $project['projectid'] = $row[1];
-                echo "<br><a href='tasks.php?project=" . $project['projectid'] . "'><h5>" . $project['projectname'] . "</h5></a><br>";
+                $project['dateproject'] = $row[2];
+                echo "<br><a href='tasks.php?project=" . $project['projectid'] . "'><h5>" . $project['projectname'] . "</h5></a><span class='deadline-text'>Deadline due " . $project['dateproject'] . "</span><br>";
         }  
          
         $projectid = $_COOKIE['projectidvalue'];    
@@ -124,14 +146,18 @@
          <div class="span6"><!-- --------------------------------------------- !-->
               <form action="" method="post" id="registerform">
                  <input type="text" name="tasktitle" class="textfield" placeholder="Task title"><br>
+                 <input type="text" name="date1" id="date1" alt="date" class="IP_calendar" title="d/m/Y" placeholder="Deadline">
                  <input type="hidden" name="projectnum" value="<?php echo $projectid ?>" />
+                 
                 <button type="submit" class="btn btn-small btn-success">Add Task</button><br>
-              </form>
+             </form>
+                
               <div>
                 <?php
                     while ($row = $tasks->fetch(PDO::FETCH_NUM)) {
                         $task['tasktitle'] = $row[0];
-                        echo "<li class='tasks'><h5>" . $task['tasktitle'] . "</h5></li>";
+                        $task['date'] = $row[1];
+                        echo "<li class='tasks'><h5>" . $task['tasktitle'] . "</h5><span class='deadline-text'>Deadline due " . $task['date'] . "</span></li>";
                     }
                 ?>
               </div>
@@ -150,7 +176,7 @@
                 </div>
                 <div class="comment-list">
                     <ul class=comments-holder-ul>
-                        <?php $comments = Feature::getComments(); ?>
+                        <?php if($projectid != null){ $comments = Feature::getComments(); } ?>
                         <?php require_once INCLUDES . 'commentbox.php'; ?>
                     </ul>
                 </div>

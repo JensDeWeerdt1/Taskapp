@@ -269,17 +269,12 @@ li{
     list-style-type: none;
 }
 
-.btn{
-    float:left;
-}
-
 .tasks{
     display:block;
     width:100%;
-    background-color:#f2f2f2;
+    background-color:#f1f1f1;
     padding: 10px 5px 10px 5px;
     color:#595959;
-    
 }
 
 .loggedinimg{
@@ -297,6 +292,12 @@ li{
     margin-right:auto;
     text-align:center;
     color:#666666;
+}
+
+.deadline-text{
+    color:#999999;
+    font-size:0.8em;
+    margin-top:-20px;
 }
 
 
