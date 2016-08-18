@@ -18,7 +18,7 @@
                 $projectid = 0;
             }
             
-            if(!empty($_POST))
+            if(!empty($_POST['tasksform']))
             {
                 try
                 {  
@@ -41,7 +41,22 @@
                 
                 
             }
-            if(!empty($_POST))
+        
+            if(!empty($_POST['courseform']))
+            {
+                try
+                {  
+                    $course = new Feature();
+                    $course->Coursename = $_POST['coursename'];
+                    $course->newcourse();
+                    
+                }
+                catch(exception $e)
+                {
+                    $error = $e->getMessage();
+                }
+            }
+            if(!empty($_POST['projectsform']))
             {
                 try
                 {  
@@ -60,6 +75,22 @@
                     $error = $e->getMessage();
                 }
             }
+            if(!empty($_POST['coursedelete']))
+            {
+                try
+                {  
+                    $coursedel = new Feature();
+                    $deleteid = $_POST['course1'];
+                    
+                    $coursedel->deletecourse($deleteid);
+                    
+                }
+                catch(exception $e)
+                {
+                    $error = $e->getMessage();
+                }
+            }
+            
             
         }
             
@@ -90,9 +121,11 @@
             $projects = $conn->query("SELECT projectname,projectid,dateproject FROM projects WHERE userid = $userid;");
             $users = $conn->query("SELECT username FROM users;");
             $course = $conn->query("SELECT * FROM courses;");
+            $coursedelete = $conn->query("SELECT * FROM courses;");
             foreach ($userdata as $row) {
                 $loggedinuser = $row['username'];
                 $profileloc = $row['profile_img'];
+                $adminornot = $row['Admin'];
             }     
             
         
@@ -119,7 +152,6 @@
            <input type="text" name="projectname" class="textfield" placeholder="Project name"><br>
            <select name="course" >
                <?php 
-                    $sql = mysql_query("SELECT username FROM users");
                     while ($row = $course->fetch(PDO::FETCH_NUM)){
                     $row['coursename'] = $row[1];
                     echo "<option value=". $row['coursename'] .">" . $row['coursename'] . "</option>";
@@ -127,29 +159,52 @@
                ?>
            </select>
            <input type="text" name="date2" id="date2" alt="date" class="IP_calendar" title="d/m/Y" placeholder="Deadline">
-           <button type="submit" class="btn btn-small btn-success">Add</button><br>
+           <input type="submit" class="btn btn-small btn-success" name="projectsform" value='Add project'/><br>
     </form>
-          
+          <div class="projectslist">
            <?php
         while ($row = $projects->fetch(PDO::FETCH_NUM)) {
                 $project['projectname'] = $row[0];
                 $projid = $project['projectid'] = $row[1];
                 $project['dateproject'] = $row[2];
                 echo "<br><a href='tasks.php?project=" . $project['projectid'] . "'><h5>" . $project['projectname'] . "</h5></a><span class='deadline-text'>Deadline due " . $project['dateproject'] . "</span><br>";
-        }  
+        }  ?>
+        </div>
+        <?php
          
         $projectid = $_COOKIE['projectidvalue'];    
-        
+       if($adminornot == 1){
        ?>
+       <h4>Admin Menu</h4>
+       <h6>Add new course</h6>
+       
+       <form action='' method='post'>
+            <input type='text' name='coursename' class='textfield' placeholder='coursename'><br>
+            <input type='submit' class='btn btn-small btn-success' name='courseform' value='Add Course'/>
+       </form>
+           
+       <form action='' method='post' id='registerform'>
+           <select name='course1' >
+               <?php 
+                    while ($row = $coursedelete->fetch(PDO::FETCH_NUM)){
+                    $row['courseid'] = $row[0];
+                    $row['coursename'] = $row[1];
+                    echo "<option value=". $row['courseid'] .">" . $row['coursename'] . "</option>'";
+                    }
+               ?>
+           </select>
+           <input type='submit' class='btn btn-small btn-success' name='coursedelete' value='Delete course'/><br>
+    </form>
+      <?php } ?>
        </div>
         </div>
          <div class="span6"><!-- --------------------------------------------- !-->
-              <form action="" method="post" id="registerform">
+              <form action="" method="post" id="registerform" name='tasks'>
                  <input type="text" name="tasktitle" class="textfield" placeholder="Task title"><br>
                  <input type="text" name="date1" id="date1" alt="date" class="IP_calendar" title="d/m/Y" placeholder="Deadline">
                  <input type="hidden" name="projectnum" value="<?php echo $projectid ?>" />
                  
-                <button type="submit" class="btn btn-small btn-success">Add Task</button><br>
+                <input type="submit" class="btn btn-small btn-success" name='tasksform' value='Add Task'/><br>
              </form>
                 
               <div>

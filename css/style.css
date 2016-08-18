@@ -297,7 +297,11 @@ li{
 .deadline-text{
     color:#999999;
     font-size:0.8em;
-    margin-top:-20px;
+    
+}
+
+.projectslist{
+    margin-bottom:40px;
 }
 
 

@@ -12,6 +12,7 @@ class Feature
         private $m_sDate;
         private $m_sDate1;
         private $m_sCourse;
+        private $m_sCoursename;
         
     
         
@@ -59,6 +60,9 @@ class Feature
                 case "Course":
                     $this->m_sCourse = $p_vValue;
                 break;
+                case "Coursename":
+                    $this->m_sCoursename = $p_vValue;
+                break;
                 default: echo("Not existing property: " . $p_sProperty);
             } 
         }
@@ -91,6 +95,9 @@ class Feature
                 case 'Course':
                     return($this->m_sCourse);
                 break;
+                case 'Coursename':
+                    return($this->m_sCoursename);
+                break;
                 
                 
                 default: echo("Not existing property: " . $p_sProperty);
@@ -104,6 +111,28 @@ class Feature
 				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
                 $data = $conn->query("INSERT INTO projects(projectname, userid, dateproject, course) VALUES(" . $conn->quote($this->m_sProjectname) . ", ". $conn->quote($this->m_iUserid) . ", ". $conn->quote($this->m_sDate1) . ", " . $conn->quote($this->m_sCourse) .")");
+                header("Location: tasks.php");
+            
+		}
+    
+        public function newcourse()
+        {
+            
+                $conn = new PDO('mysql:host=localhost;dbname=Taskapp', "root", "");
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $data = $conn->query("INSERT INTO courses(coursename) VALUES(" . $conn->quote($this->m_sCoursename) . ")");
+                header("Location: tasks.php");
+            
+		}
+    
+        public function deletecourse($deleteid)
+        {
+            
+                $conn = new PDO('mysql:host=localhost;dbname=Taskapp', "root", "");
+				$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+                $data = $conn->query("DELETE from courses WHERE courseid = $deleteid");
                 header("Location: tasks.php");
             
 		}
